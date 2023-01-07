@@ -30,7 +30,7 @@ const PriceContainer = styled.p`
     font-weight: 600;
 `;
 
-  const AddButton = styled.button`
+  const ButtonContainer = styled.button`
     position: relative;
     top: 40px;
     right: -64px;
@@ -63,7 +63,7 @@ const Product: React.FC<ProductProps> = ({
   return (
     <ProductContainer>
         <img src={image} alt={name} width={150} height={150}/>
-        <AddButton onClick={() => onAddToCart()}>+</AddButton>
+        <ButtonContainer onClick={() => onAddToCart()}>+</ButtonContainer>
       <InfoContainer>
         <h3>{name}</h3>
         <PriceContainer>${price}</PriceContainer>
