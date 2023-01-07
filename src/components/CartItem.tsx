@@ -35,6 +35,7 @@ const ButtonContainer = styled.button`
   color: #ff4e4e;
   font-size: 24px;
   font-weight: lighter;
+  cursor: pointer;
   &:hover {
     filter: brightness(85%);
   }
@@ -46,6 +47,7 @@ const RemoveButton = styled.button`
   color: #ff4e4e;
   font-size: 16px;
   font-weight: bolder;
+  cursor: pointer;
   &:hover {
     filter: brightness(75%);
   }
