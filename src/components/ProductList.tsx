@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Product } from './index';
+import { Product, SearchInputField } from './index';
 import apple from '../assets/img/apple.png';
 import pear from '../assets/img/pear.png';
 import banana from '../assets/img/banana.png';
@@ -11,6 +11,13 @@ const ProductListContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const BodyContainer = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
 `;
 
 interface Product {
@@ -80,12 +87,13 @@ const ProductList: React.FC = () => {
   };
 
   return (
-    <>
-      <input
+    <BodyContainer>
+      {/* <input
         type="text"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-      />
+      /> */}
+      <SearchInputField value={search} onChange={()=>null} />;
       <ProductListContainer>
         {filteredProducts.map((product) => (
           <Product
@@ -97,7 +105,7 @@ const ProductList: React.FC = () => {
           />
         ))}
       </ProductListContainer>
-    </>
+    </BodyContainer>
   );
 };
 
