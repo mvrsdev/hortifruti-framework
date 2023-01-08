@@ -7,7 +7,7 @@ const Ecommerce = () => {
     <>
       <CartContext.Provider value={{ cart, setCart }}>
         <Header />
-        <ProductList />
+        <ProductList setCart={setCart} />
         <Cart />
         <Footer />
       </CartContext.Provider>
