@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, ChangeEventHandler, FC, useState } from 'react';
 import { MdSearch } from 'react-icons/md';
 import styled from 'styled-components';
 
@@ -11,7 +11,7 @@ const SearchBox = styled.div`
   padding: 0 1rem;
   height: 42px;
   width: 50vw;
-  margin: 48px 0 ;
+  margin: 48px 0;
   border: 1px solid #dadce0;
   transition: all 350ms cubic-bezier(0.165, 0.84, 0.44, 1);
   &:hover,
@@ -35,31 +35,34 @@ const InputField = styled.input`
 `;
 
 interface SearchProps {
-  onChange: () => any;
+  onChange: ChangeEventHandler<HTMLInputElement>;
   value: string;
 }
 
-const SearchInputField: React.FC <SearchProps>= ({value}) => {
-  
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(event.target.value);
-  };
-  
-  const [search, setSearch] = useState(value);
-  
+const SearchInputField: FC<SearchProps> = ({onChange, value}) => {
+  const [searchTerm, setSearchTerm] = useState(value);
 
+  const searchChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+    onChange(e);
+  };
 
   return (
     <SearchBox>
       <MdSearch size="1.5em" color={iconColor} />
       <InputField
         type="text"
-        value={search}
-        placeholder='Search here'
-        onChange={handleChange}
+        value={searchTerm}
+        placeholder="Search here"
+        onChange={searchChangeHandler}
       />
     </SearchBox>
   );
-  };
+};
+
+
+
+
+
 
 export default SearchInputField;
