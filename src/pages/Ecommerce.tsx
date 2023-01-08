@@ -1,12 +1,16 @@
-import React from 'react';
-import { Header, ProductList } from '../components';
+import React, { useContext } from 'react';
+import { Cart, CartContext, Footer, Header, ProductList } from '../components';
 
 const Ecommerce = () => {
+  const { cart, setCart } = useContext(CartContext);
   return (
     <>
-      <Header />
-      <ProductList/>
-      
+      <CartContext.Provider value={{ cart, setCart }}>
+        <Header />
+        <ProductList />
+        <Cart />
+        <Footer />
+      </CartContext.Provider>
     </>
   );
 };
