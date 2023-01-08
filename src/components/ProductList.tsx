@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { Product, SearchInputField } from './index';
+import React, { useContext, useState } from 'react';
+import { CartContext, Product, SearchInputField } from './index';
 import styled from 'styled-components';
 import apple from '../assets/img/apple.png';
 import pear from '../assets/img/pear.png';
 import banana from '../assets/img/banana.png';
 import pineapple from '../assets/img/pineapple.png';
 import mango from '../assets/img/mango.png';
+import { CartItemProps } from './CartContext';
 
 const ProductListContainer = styled.div`
   display: flex;
@@ -27,7 +28,7 @@ interface ProductProps {
   image: string;
 }
 
-const ProductList: React.FC = () => {
+const ProductList: React.FC = ({ setCart }: { setCart: (items: CartItemProps[]) => void }) => {
   const [products] = useState<ProductProps[]>([
     {
       id: 1,
@@ -68,13 +69,22 @@ const ProductList: React.FC = () => {
       )
     : products;
 
-  const [cart, setCart] = useState([{ id: 0, name: '', quantity: 0 }]);
+  const { cart } = useContext(CartContext);
+  
   const addToCart = (product: ProductProps) => {
     const newCart = [...cart];
 
-    const index = newCart.findIndex((item) => item.id === product.id);
+    const index = newCart.findIndex((item) => item.product.id === product.id);
     if (index === -1) {
-      newCart.push({ id: product.id, name: product.name, quantity: 1 });
+      newCart.push({
+        product: {
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          image: product.image,
+        },
+        quantity: 1,
+      });
     } else {
       newCart[index].quantity++;
     }
@@ -83,8 +93,11 @@ const ProductList: React.FC = () => {
 
   return (
     <BodyContainer>
-      <SearchInputField value={search} onChange={(event) => setSearch(event.target.value)}/>;
-      
+      <SearchInputField
+        value={search}
+        onChange={(event) => setSearch(event.target.value)}
+      />
+      ;
         <ProductListContainer>
           {filteredProducts.map((product) => (
             <Product
