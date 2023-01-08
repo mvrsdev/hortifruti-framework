@@ -81,10 +81,6 @@ const ProductList: React.FC = () => {
     setCart(newCart);
   };
 
-console.log('this is the Search: ', search);
-console.log('this is the Products: ', products);
-console.log('this is the Filtered Products: ', filteredProducts);
-
   return (
     <BodyContainer>
       <SearchInputField value={search} onChange={(event) => setSearch(event.target.value)}/>;
