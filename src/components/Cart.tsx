@@ -1,10 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Button, CartContext, CartItem, Checkout } from './index';
-import apple from '../assets/img/apple.png';
-import pear from '../assets/img/pear.png';
-import banana from '../assets/img/banana.png';
-import pineapple from '../assets/img/pineapple.png';
-import mango from '../assets/img/mango.png';
+
 import styled from 'styled-components';
 import { CartItemProps } from './CartContext';
 
@@ -54,6 +50,7 @@ const Cart: React.FC = () => {
 
   return (
     <CartContainer>
+
     {items.map((item) => (
       <CartItem
         key={item.product.name}
