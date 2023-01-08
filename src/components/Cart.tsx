@@ -1,21 +1,12 @@
-import React, { useState } from 'react';
-import { Button, CartItem, Checkout } from './index';
-// import { MdArrowForwardIos } from 'react-icons/md';
+import React, { useContext, useState } from 'react';
+import { Button, CartContext, CartItem, Checkout } from './index';
 import apple from '../assets/img/apple.png';
 import pear from '../assets/img/pear.png';
 import banana from '../assets/img/banana.png';
 import pineapple from '../assets/img/pineapple.png';
 import mango from '../assets/img/mango.png';
 import styled from 'styled-components';
-
-interface CartItemProps {
-  product: {
-    name: string;
-    price: number;
-    image: string;
-  };
-  quantity: number;
-}
+import { CartItemProps } from './CartContext';
 
 const CartContainer = styled.div`
   background-color: #f5f5f5;
@@ -36,25 +27,12 @@ const CheckoutButtonContainer = styled.div`
   align-self: center;
 `;
 
+
 const Cart: React.FC = () => {
-  const [items, setItems] = useState<CartItemProps[]>([
-    {
-      product: {
-        name: 'Apple',
-        price: 0.99,
-        image: apple,
-      },
-      quantity: 1,
-    },
-    {
-      product: {
-        name: 'Pear',
-        price: 0.89,
-        image: pear,
-      },
-      quantity: 2,
-    },
-  ]);
+  const { cart, setCart } = useContext(CartContext)
+  const [items, setItems] = useState<CartItemProps[]>(cart);
+
+
 
   const [isCheckingOut, setIsCheckingOut] = useState(false);
 
@@ -65,6 +43,7 @@ const Cart: React.FC = () => {
   const removeFromCart = (product: { name: string }) => {
     const newItems = items.filter((item) => item.product.name !== product.name);
     setItems(newItems);
+    setCart(newItems);
   };
 
   const totalQuantity = items.reduce((acc, item) => acc + item.quantity, 0);
@@ -75,14 +54,14 @@ const Cart: React.FC = () => {
 
   return (
     <CartContainer>
-      {items.map((item) => (
-        <CartItem
-          key={item.product.name}
-          product={item.product}
-          quantity={item.quantity}
-          onRemove={() => removeFromCart(item.product)}
-        />
-      ))}
+    {items.map((item) => (
+      <CartItem
+        key={item.product.name}
+        product={item.product}
+        quantity={item.quantity}
+        onRemove={() => removeFromCart(item.product)}
+      />
+    ))}
       <TotalContainer>
         <span>Total Quantity: {totalQuantity}</span>
         <span>Total Price: ${totalPrice}</span>
