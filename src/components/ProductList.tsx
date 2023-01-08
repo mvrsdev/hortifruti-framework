@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Product, SearchInputField } from './index';
+import styled from 'styled-components';
 import apple from '../assets/img/apple.png';
 import pear from '../assets/img/pear.png';
 import banana from '../assets/img/banana.png';
 import pineapple from '../assets/img/pineapple.png';
 import mango from '../assets/img/mango.png';
-import styled from 'styled-components';
 
 const ProductListContainer = styled.div`
   display: flex;
@@ -14,26 +14,21 @@ const ProductListContainer = styled.div`
 `;
 
 const BodyContainer = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
-flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;
 
-interface Product {
+interface ProductProps {
   id: number;
   name: string;
   price: number;
   image: string;
 }
 
-interface CartItem {
-  product: Product;
-  quantity: number;
-}
-
 const ProductList: React.FC = () => {
-  const [products] = useState<Product[]>([
+  const [products] = useState<ProductProps[]>([
     {
       id: 1,
       name: 'Apple',
@@ -66,45 +61,45 @@ const ProductList: React.FC = () => {
     },
   ]);
 
-  const [cart, setCart] = useState<CartItem[]>([]);
   const [search, setSearch] = useState('');
-
   const filteredProducts = search
     ? products.filter((product) =>
         product.name.toLowerCase().includes(search.toLowerCase())
       )
     : products;
 
-  const addToCart = (product: Product) => {
+  const [cart, setCart] = useState([{ id: 0, name: '', quantity: 0 }]);
+  const addToCart = (product: ProductProps) => {
     const newCart = [...cart];
-    const index = newCart.findIndex((item) => item.product.id === product.id);
+
+    const index = newCart.findIndex((item) => item.id === product.id);
     if (index === -1) {
-      newCart.push({ product, quantity: 1 });
+      newCart.push({ id: product.id, name: product.name, quantity: 1 });
     } else {
       newCart[index].quantity++;
     }
     setCart(newCart);
   };
 
+console.log('this is the Search: ', search);
+console.log('this is the Products: ', products);
+console.log('this is the Filtered Products: ', filteredProducts);
+
   return (
     <BodyContainer>
-      {/* <input
-        type="text"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      /> */}
-      <SearchInputField value={search} onChange={()=>null} />;
-      <ProductListContainer>
-        {filteredProducts.map((product) => (
-          <Product
-            key={product.id}
-            name={product.name}
-            price={product.price}
-            image={product.image}
-            onAddToCart={() => addToCart(product)}
-          />
-        ))}
-      </ProductListContainer>
+      <SearchInputField value={search} onChange={(event) => setSearch(event.target.value)}/>;
+      
+        <ProductListContainer>
+          {filteredProducts.map((product) => (
+            <Product
+              key={product.id}
+              name={product.name}
+              price={product.price}
+              image={product.image}
+              onAddToCart={() => addToCart(product)}
+            />
+          ))}
+        </ProductListContainer>
     </BodyContainer>
   );
 };
