@@ -1,9 +1,9 @@
 import React from 'react';
+import Ecommerce from './pages/Ecommerce';
+
 
 function App() {
-  return (
-
-  );
+  return <Ecommerce/>
 }
 
 export default App;
