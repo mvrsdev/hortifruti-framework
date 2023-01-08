@@ -47,7 +47,8 @@ const PriceContainer = styled.p`
     }
   `;
 
-interface ProductProps {
+export interface ProductProps {
+  id?: number;
   name: string;
   price: number;
   image: string;
