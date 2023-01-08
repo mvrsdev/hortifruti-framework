@@ -28,7 +28,11 @@ interface ProductProps {
   image: string;
 }
 
-const ProductList: React.FC = ({ setCart }: { setCart: (items: CartItemProps[]) => void }) => {
+interface ProductListProps {
+  setCart: (items: CartItemProps[]) => void;
+}
+
+const ProductList: React.FC<ProductListProps> = ({ setCart }: { setCart: (items: CartItemProps[]) => void }) => {
   const [products] = useState<ProductProps[]>([
     {
       id: 1,
