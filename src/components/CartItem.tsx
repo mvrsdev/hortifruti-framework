@@ -65,7 +65,12 @@ const TotalInput = styled.input`
   margin: 0 10px;
 `;
 
-const CartItem: React.FC<CartItemProps> = ({ product, quantity }, onRemove) => {
+
+  const removeFromCart = (product: { name: string }) => {
+    const newItems = cart.filter((item) => item.product !== product);
+    setCart(newItems);
+  };
+  
   return (
     <ItemContainer>
       <img src={product.image} alt={product.name} width={60} height={60} />
@@ -76,7 +81,8 @@ const CartItem: React.FC<CartItemProps> = ({ product, quantity }, onRemove) => {
         <TotalInput type="text" value={quantity} />
         <ButtonContainer onClick={() => null}>+</ButtonContainer>
       </QuantityContainer>
-      <RemoveButton onClick={onRemove}>REMOVE</RemoveButton>
+      <RemoveButton onClick={() => removeFromCart(product)}>REMOVE</RemoveButton>
+
     </ItemContainer>
   );
 };
