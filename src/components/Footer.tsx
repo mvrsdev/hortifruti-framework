@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import { Button } from './index';
 import { ProductProps } from './Product';
 
 const FooterRow = styled.div`
@@ -25,13 +24,14 @@ width: 100vw;
 
 interface FooterProps {
   products?: ProductProps;
+  children: React.ReactNode;
 }
 
-const Footer: FC<FooterProps> = () => {
+const Footer: FC<FooterProps> = ({children}) => {
   return (
     <FooterRow>
       <ContentRow>
-        <Button width={144} onClick={() => null}>Total</Button>
+        {children}
       </ContentRow>
     </FooterRow>
   );
