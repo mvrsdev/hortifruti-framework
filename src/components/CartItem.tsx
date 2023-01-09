@@ -1,15 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
-
-interface CartItemProps {
-  product: {
-    name: string;
-    price: number;
-    image: string;
-  };
-  quantity: number;
-  onRemove: () => void;
-}
+import CartContext from './CartContext';
 
 const ItemContainer = styled.div`
   display: flex;
@@ -65,6 +56,25 @@ const TotalInput = styled.input`
   margin: 0 10px;
 `;
 
+interface CartItemProps {
+  id: number;
+  product: {
+    name: string;
+    price: number;
+    image: string;
+  };
+  quantity: number;
+  onRemove: () => void;
+}
+
+const CartItem: React.FC<CartItemProps> = ({ product, quantity, onRemove }) => {
+  const { cart, setCart } = useContext(CartContext);
+
+  const cartIncrement = (index: number) => {
+    const newCart = [...cart];
+    newCart[index].quantity++;
+    setCart(newCart);
+  };
 
   const cartDecrement = (index: number) => {
     const newCart = [...cart];
@@ -79,6 +89,8 @@ const TotalInput = styled.input`
     setCart(newItems);
   };
   
+  
+
   return (
     <ItemContainer>
       <img src={product.image} alt={product.name} width={60} height={60} />
@@ -86,8 +98,12 @@ const TotalInput = styled.input`
       <p>${product.price}</p>
       <QuantityContainer>
         <ButtonContainer onClick={() => cartDecrement(index)}>
+          -
+        </ButtonContainer>
         <TotalInput type="text" value={quantity} />
-        <ButtonContainer onClick={() => null}>+</ButtonContainer>
+        <ButtonContainer onClick={() => cartIncrement(index)}>
+          +
+        </ButtonContainer>
       </QuantityContainer>
       <RemoveButton onClick={() => removeFromCart(product)}>REMOVE</RemoveButton>
 
