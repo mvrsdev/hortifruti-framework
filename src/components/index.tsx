@@ -1,6 +1,5 @@
-export { default as Checkout } from '../pages/Checkout';
 export { default as Button } from './Button';
-export { default as Cart } from './Cart';
+
 export { default as CartContext } from './CartContext';
 export { default as CartItem } from './CartItem';
 export { default as Header } from './Header';
