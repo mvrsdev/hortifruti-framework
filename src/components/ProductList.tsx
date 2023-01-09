@@ -6,7 +6,6 @@ import pear from '../assets/img/pear.png';
 import banana from '../assets/img/banana.png';
 import pineapple from '../assets/img/pineapple.png';
 import mango from '../assets/img/mango.png';
-import { CartItemProps } from './CartContext';
 
 const ProductListContainer = styled.div`
   display: flex;
@@ -28,11 +27,7 @@ interface ProductProps {
   image: string;
 }
 
-interface ProductListProps {
-  setCart: (items: CartItemProps[]) => void;
-}
-
-const ProductList: React.FC<ProductListProps> = ({ setCart }: { setCart: (items: CartItemProps[]) => void }) => {
+const ProductList: React.FC = () => {
   const [products] = useState<ProductProps[]>([
     {
       id: 1,
@@ -73,8 +68,8 @@ const ProductList: React.FC<ProductListProps> = ({ setCart }: { setCart: (items:
       )
     : products;
 
-  const { cart } = useContext(CartContext);
-  
+  const { cart, setCart } = useContext(CartContext);
+
   const addToCart = (product: ProductProps) => {
     const newCart = [...cart];
 
@@ -96,12 +91,13 @@ const ProductList: React.FC<ProductListProps> = ({ setCart }: { setCart: (items:
   };
 
   return (
-    <BodyContainer>
-      <SearchInputField
-        value={search}
-        onChange={(event) => setSearch(event.target.value)}
-      />
-      ;
+    <CartContext.Provider value={{ cart, setCart }}>
+      <BodyContainer>
+        <SearchInputField
+          value={search}
+          onChange={(event) => setSearch(event.target.value)}
+        />
+        
         <ProductListContainer>
           {filteredProducts.map((product) => (
             <Product
@@ -113,7 +109,8 @@ const ProductList: React.FC<ProductListProps> = ({ setCart }: { setCart: (items:
             />
           ))}
         </ProductListContainer>
-    </BodyContainer>
+      </BodyContainer>
+    </CartContext.Provider>
   );
 };
 
