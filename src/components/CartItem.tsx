@@ -66,6 +66,14 @@ const TotalInput = styled.input`
 `;
 
 
+  const cartDecrement = (index: number) => {
+    const newCart = [...cart];
+    newCart[index].quantity--;
+    setCart(newCart);
+  };
+
+  const index = cart.findIndex((item) => item.product === product);
+
   const removeFromCart = (product: { name: string }) => {
     const newItems = cart.filter((item) => item.product !== product);
     setCart(newItems);
@@ -77,7 +85,7 @@ const TotalInput = styled.input`
       <h4>{product.name}</h4>
       <p>${product.price}</p>
       <QuantityContainer>
-        <ButtonContainer onClick={() => null}>-</ButtonContainer>
+        <ButtonContainer onClick={() => cartDecrement(index)}>
         <TotalInput type="text" value={quantity} />
         <ButtonContainer onClick={() => null}>+</ButtonContainer>
       </QuantityContainer>
