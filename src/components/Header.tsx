@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { LoginButton } from './index';
 import shoppingCart from '../assets/img/shopping-cart.png';
+import { useNavigate } from 'react-router-dom';
 
 const HeaderRow = styled.div`
   display: flex;
@@ -25,13 +26,19 @@ h1 {
 `;
 
 const Header: React.FC = () => {
+  const navigate = useNavigate();
+
+  const loginClickHandler = () => {
+    navigate('/login');
+  };
+
   return (
       <HeaderRow>
         <LogoContainer>
         <img src={shoppingCart} alt='Shopping Cart' width={26} height={26}/>
         <h1>Hortifruti Framework</h1>
         </LogoContainer>
-      <LoginButton onClick={() => null}/>
+      <LoginButton onClick={loginClickHandler}/>
       </HeaderRow>
   );
 };
