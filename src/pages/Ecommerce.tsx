@@ -1,17 +1,23 @@
-import React, { useContext } from 'react';
-import { Cart, CartContext, Footer, Header, ProductList } from '../components';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { CartItemProps } from '../components/CartContext';
+import { Cart, HomePage, Login } from './index';
 
-const Ecommerce = () => {
-  const { cart, setCart } = useContext(CartContext);
+interface EcommerceProps {
+  cart: CartItemProps[];
+  setCart: React.Dispatch<React.SetStateAction<CartItemProps[]>>;
+}
+
+const Ecommerce: React.FC<EcommerceProps> = ({ cart, setCart }) => {
   return (
-    <>
-      <CartContext.Provider value={{ cart, setCart }}>
-        <Header />
-        <ProductList setCart={setCart} />
-        <Cart />
-        <Footer />
-      </CartContext.Provider>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="cart" element={<Cart />} />
+        <Route path="login" element={<Login />} />
+
+        <Route path="*" element={<p>Page not Found</p>} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 
