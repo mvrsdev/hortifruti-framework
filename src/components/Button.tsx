@@ -25,10 +25,6 @@ const StyledButton = styled.button`
         box-shadow: 0 1px 2px 0 rgb(66 133 244 / 30%),
           0 1px 3px 1px rgb(66 133 244 / 15%);
       }
-
-  /* &:active {
-    filter: brightness(85%);
-  } */
 `;
 
 const Button: React.FC<ButtonProps> = ({ children, onClick, width }) => {
