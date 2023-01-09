@@ -1,6 +1,8 @@
 import { login } from './utils';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import styled from 'styled-components';
+import{ LoginContext }from './index';
+import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.div`
   margin: 0;
@@ -22,27 +24,31 @@ const Input = styled.input`
   }
 `;
 
-const ButtonWrapper = styled.div`
-  button {
-    border-radius: 8px;
-    border: 1px solid transparent;
-    padding: 0.6em 1.2em;
-    font-size: 1em;
-    font-weight: 500;
-    font-family: inherit;
-    color: #fff;
-    cursor: pointer;
-    transition: border-color 0.25s;
-    background-color: #ff4e4e;
-    display: block;
-    width: 100%;
-
+const ButtonWrapper = styled.button`
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  color: #fff;
+  cursor: pointer;
+  transition: border-color 0.25s;
+  background-color: #ff4e4e;
+  display: block;
+  width: 100%;
+  &:disabled {
+    color: #bababa;
+    background-color: #f2f2f2;
     &:hover {
-      filter: brightness(115%);
+      filter: brightness(90%);
     }
-    &:active {
-      border-color: #ff4e4e;
-    }
+  }
+  &:hover {
+    filter: brightness(115%);
+  }
+  &:active {
+    border-color: #ff4e4e;
   }
 `;
 
@@ -69,6 +75,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [isRequesting, setIsRequesting] = useState(false);
+  const { isLogged, setIsLogged } = useContext(LoginContext);
 
   const emailHandler = (event: { target: { value: any } }) => {
     const { value } = event.target;
@@ -80,14 +87,21 @@ const Login = () => {
     setPassword(value);
   };
 
+  const navigate = useNavigate();
+
+  const loginClickHandler = () => {
+    navigate('/');
+  };
+
   const submitHandler = () => {
     setError(null);
     setIsRequesting(true);
+    setIsLogged(true);
 
     let values = { email: email, password: password };
     login(values)
       .then(() => {
-        alert(`You're logged in!`);
+        loginClickHandler();
       })
       .catch((error) => {
         setError(error);
@@ -121,15 +135,14 @@ const Login = () => {
             onChange={passwordHandler}
           />
         </LoginRow>
-
-        <ButtonWrapper>
-          <button
+        <LoginContext.Provider value={{ isLogged, setIsLogged }}>
+          <ButtonWrapper
             disabled={email === '' || password.length < 6 || isRequesting}
             onClick={submitHandler}
           >
             Login
-          </button>
-        </ButtonWrapper>
+          </ButtonWrapper>
+        </LoginContext.Provider>
       </div>
     </Wrapper>
   );
