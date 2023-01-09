@@ -1,6 +1,7 @@
-import React from 'react';
+import jsPDF from 'jspdf';
+import React, { useContext, useMemo } from 'react';
 import styled from 'styled-components';
-import { CartItemProps } from '../components/CartContext';
+import CartContext, { CartItemProps } from '../components/CartContext';
 import { Button, CartItem } from '../components/index';
 
 const CheckoutWrapper = styled.div`
@@ -15,11 +16,33 @@ const CheckoutWrapper = styled.div`
   border: 1px solid #f0f0f0;
   text-align: center;
 `;
+
 interface CheckoutProps {
   items: CartItemProps[];
 }
 
 const Checkout: React.FC<CheckoutProps> = ({ items }) => {
+  const { cart } = useContext(CartContext);
+
+  const totalPrice = useMemo(
+    () =>
+      cart.reduce((acc, item) => acc + item.product.price * item.quantity, 0),
+    [cart]
+  );
+
+const purchaseHandler = () => {
+  const pdf = new jsPDF();
+
+  pdf.text('Receipt', 93, 15);
+
+  items.forEach((item, index) => {
+    pdf.text(`${item.product.name}:\nQuantity: ${item.quantity}     x     Price: $${item.product.price}`, 20, 40 + (index * 20))
+  });
+
+  pdf.text(`Total: $${totalPrice.toFixed(2)}`, 160, 155)
+
+  pdf.save('RECEIPT.pdf');
+};
   return (
     <CheckoutWrapper>
       <h1>Shopping Cart</h1>
@@ -30,7 +53,7 @@ const Checkout: React.FC<CheckoutProps> = ({ items }) => {
           quantity={item.quantity}
           onRemove={() => null} id={0}        />
       ))}
-      <Button onClick={() => null}>Purchase</Button>
+      <Button onClick={purchaseHandler}>Purchase</Button>
     </CheckoutWrapper>
   );
 };
