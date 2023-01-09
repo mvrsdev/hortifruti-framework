@@ -29,11 +29,6 @@ const Cart: React.FC = () => {
   const { cart } = useContext(CartContext);
   const [isModal, setIsModal] = useState(false);
 
-  // const removeFromCart = (product: { name: string }) => {
-  //   const newItems = cart.filter((item) => item.product.name !== product.name);
-  //   setCart(newItems);
-  // };
-
   const totalPrice = useMemo(
     () =>
       cart.reduce((acc, item) => acc + item.product.price * item.quantity, 0),
