@@ -12,7 +12,6 @@ const Ecommerce: React.FC<EcommerceProps> = ({ cart, setCart }) => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="cart" element={<Cart />} />
         <Route path="login" element={<Login />} />
 
         <Route path="*" element={<p>Page not Found</p>} />
