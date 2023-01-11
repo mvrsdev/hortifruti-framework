@@ -1,9 +1,5 @@
 import { createContext, Dispatch, SetStateAction } from 'react';
-import apple from '../assets/img/apple.png';
-import pear from '../assets/img/pear.png';
-import banana from '../assets/img/banana.png';
-import pineapple from '../assets/img/pineapple.png';
-import mango from '../assets/img/mango.png';
+
 
 export interface CartItemProps {
   product: {
