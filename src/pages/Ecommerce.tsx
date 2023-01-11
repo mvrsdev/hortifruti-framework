@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { CartItemProps } from '../components/CartContext';
-import { Cart, HomePage, Login } from './index';
+import { HomePage, Login } from './index';
 
 interface EcommerceProps {
   cart: CartItemProps[];
